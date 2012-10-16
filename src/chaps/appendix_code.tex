@@ -1,13 +1,56 @@
-\newpage
 \section{Appendix A - Chip Programming Code}
-\subsection{Flow 1}
-\label{subsec:F1cpc}
+%\subsection{Main Controller Code}
+%\label{subsec:MCcpc}
+
+\begin{table*}
+\rowcolors{2}{gray!12.5}{white}
+\begin{tabularx}{\linewidth}{ r X X X X l}
+\hline
+  Equation         & Maintain                           & 2 $\to$ 1                         & 3 $\to$ 1                        & 4,5,6 $\to$ 1 & Reset \\
+  \texttt{EN1.D =} & \texttt{\EN{1}*/FF1 + }            & \texttt{/{\AR}*/\B*/\CR*\FF{2} +} & \texttt{/\AR*/\B*/\CR*\FF{2} +}  & \FF{456} +    & \nReset \\ \hline
+                   &                                    & 1 $\to$ 2                   & & & \\
+  \texttt{EN2.D =} & \texttt{/\nReset *\EN{2}*/\FF{2}+} & \texttt{/\nReset*\D*\FF{1}} & & & \\ \hline
+                   &                                    & 1 $\to$ 3                       & 2 $\to$ 3                    & & \\
+  \texttt{EN3.D =} & \texttt{/\nReset *\EN{3}*/\FF{3}+} & \texttt{/\nReset*\B*/\D*\FF{1}} & \texttt{/\nReset*B*D*\FF{2}} & & \\ \hline
+                   &                                    & 1 $\to$ 4                                  & 2 $\to$ 4                                 & 3 $\to$ 4                             & \\
+  \texttt{EN4.D =} & \texttt{/\nReset *\EN{4}*/\FF{4}+} & \texttt{/\nReset*\AR*/\B*\CR*/\D*\FF{1}+}  & \texttt{/\nReset*\AR*/\B*\CR*\D*\FF{2}+}  & \texttt{/\nReset*\AR*\B*\CR*\FF{3}}   & \\ \hline
+                   &                                    & 1 $\to$ 5                                  & 2 $\to$ 5                                 & 3 $\to$ 5                             & \\
+  \texttt{EN5.D =} & \texttt{/\nReset *\EN{5}*/\FF{5}+} & \texttt{/\nReset*\AR*/\B*/\CR*/\D*\FF{1}+} & \texttt{/\nReset*\AR*/\B*/\CR*\D*\FF{2}+} & \texttt{/\nReset*\AR*\B*/\CR*\FF{2}+} & \\ \hline
+                   &                                    & 1 $\to$ 6                                  & 2 $\to$ 6                                 & 3 $\to$ 6                             & \\
+  \texttt{EN6.D =} & \texttt{/\nReset *\EN{6}*/\FF{6}+} & \texttt{/\nReset*/\AR*/\B*\CR*/\D*\FF{1}+} & \texttt{/\nReset*/\AR*/\B*\CR*\D*\FF{2}+} & \texttt{/\nReset*/\AR*\B*\CR*\FF{3}+} & \\ \hline
+                   & Logical \texttt{OR} \textbf{ALL} the sensors! & & & & \\
+    \texttt{S.D =} & \texttt{\AR + \B + \CR + \D} & & & & \\ \hline
+\end{tabularx}
+\caption{Main Controller Equations}
+\label{tab:MCeqn}
+\end{table*}
+
+
+\begin{figure*}
+\begin{lstlisting}
+EN1.D = 
+\end{lstlisting}
+\caption{Main Controller code}
+\label{lst:maincontroller}
+\end{figure*}
+
+\subsection{Minor Controller}
+\begin{figure*}
+\begin{lstlisting}
+FF456 = FF4 + FF5 + FF6
+\end{lstlisting}
+\caption{Minor Controller code}
+\label{lst:minorcontroller}
+\end{figure*}
+
+%\subsection{Flow 1}
+%\label{subsec:F1cpc}
 
 \begin{table*}
 \rowcolors{2}{white}{gray!12.5}
 \begin{tabularx}{\linewidth}{ c c c c c c c c | c c c c c c | c l l}
   \multicolumn{8}{c|}{\textbf{Current State}} & \multicolumn{6}{c|}{\textbf{Next State}} &     &           & \\
-  Num & EN1 & Q4 & Q3 & Q2 & Q1 & Q0 & S      & Num & D4 & D3 & D2 & D1 & D0             & FF1 & COL   & Comments \\ \hline
+  Num & EN1 & Q4 & Q3 & Q2 & Q1 & Q0 & S      & Num & D4 & D3 & D2 & D1 & D0             & FF1 & COL & \\ \hline
     X &   0 &  X &  X &  X &  X &  X & X      &   0 &  0 &  0 &  0 &  0 &  0             &   0 & RED & Idle \\
     0 &   1 &  0 &  0 &  0 &  0 &  1 & X      &   1 &  0 &  0 &  0 &  0 &  1             &   0 & GRN & \\
     1 &   1 &  0 &  0 &  0 &  0 &  1 & X      &   2 &  0 &  0 &  0 &  1 &  0             &   0 & GRN & \\
@@ -30,28 +73,36 @@
    18 &   1 &  1 &  0 &  0 &  1 &  0 & X      &  19 &  1 &  0 &  0 &  1 &  1             &   0 & GRN & LOOP \\
    19 &   1 &  1 &  0 &  0 &  1 &  1 & 0      &  19 &  1 &  0 &  0 &  1 &  1             &   0 & GRN & LOOP \\
    19 &   1 &  1 &  0 &  0 &  1 &  1 & 1      &  19 &  1 &  0 &  0 &  1 &  1             &   1 & GRN & LOOP \\
-   19 &   1 &  1 &  0 &  0 &  1 &  1 & 1      &   0 &  0 &  0 &  0 &  0 &  0             &   0 & AMB & FIN \\
+   19 &   1 &  1 &  0 &  0 &  1 &  1 & 1      &   0 &  0 &  0 &  0 &  0 &  0             &   0 & AMB & FIN
 \end{tabularx}
 \caption{Flow 1 Finite State Machine}
 \label{tab:F1sm}
 \end{table*}
 
+\begin{figure*}
 \begin{lstlisting}
 FF.D = EN*Q4*/Q3*/Q2*Q1*Q0*S
 
 Q0.D = EN*/Q4*/Q0 + EN*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
-Q1.D = EN*/Q4*/Q1*Q0 + EN*/Q4*Q1*/Q0 + EN*/Q3*/Q2*Q1*/Q0 + EN*/Q3*/Q2*/Q1*Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Q1.D = EN*/Q4*/Q1*Q0 + EN*/Q4*Q1*/Q0 + EN*/Q3*/Q2*Q1*/Q0
+     + EN*/Q3*/Q2*/Q1*Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
 Q2.D = EN*/Q4*Q2*/Q1 + EN*/Q4*Q2*/Q0 + EN*/Q4*/Q2*Q1*Q0
-Q3.D = EN*/Q4*Q3*/Q2 + EN*/Q4*Q3*/Q1 + EN*/Q4*Q3*/Q0 + EN*/Q4*/Q3*Q2*Q1*Q0
-Q4.D = EN*/Q4*Q3*Q2*Q1*Q0 + EN*Q4*/Q3*/Q2*/Q1 + EN*Q4*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Q3.D = EN*/Q4*Q3*/Q2 + EN*/Q4*Q3*/Q1 + EN*/Q4*Q3*/Q0
+     + EN*/Q4*/Q3*Q2*Q1*Q0
+Q4.D = EN*/Q4*Q3*Q2*Q1*Q0 + EN*Q4*/Q3*/Q2*/Q1 + EN*Q4*/Q3*/Q2*/Q0
+     + EN*Q4*/Q3*/Q2*Q1*Q0*/S
 
-Gr = /Am*EN*/Q4 + /Am*EN*/Q3*/Q2*/Q1 + /Am*EN*/Q3*/Q2*Q1*/Q0 + /Am*EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Gr = /Am*EN*/Q4 + /Am*EN*/Q3*/Q2*/Q1 + /Am*EN*/Q3*/Q2*Q1*/Q0
+   + /Am*EN*Q4*/Q3*/Q2*Q1*Q0*/S
 Am = EN*Q4*/Q3*/Q2*Q1*Q0*S
 Re = /Am*/Gr
 \end{lstlisting}
+\caption{Flow 1 Code}
+\label{lst:F1}
+\end{figure*}
 
-\subsection{Flow 2,4,5,6}
-\label{subsec:F2456cpc}
+%\subsection{Flow 2,4,5,6}
+%\label{subsec:F2456cpc}
 
 \begin{table*}
 \rowcolors{2}{white}{gray!12.5}
@@ -68,10 +119,11 @@ Re = /Am*/Gr
     6 &  1 &  1 &  1 &  0 &  0 &   7 &    1 &    1 &    1 &  0 & GREEN  &  \\
     7 &  1 &  1 &  1 &  1 &  1 &   0 &    0 &    0 &    0 &  1 & AMBER  & FLOW FINISHED \\
   \end{tabularx}
-\caption{Flow 2 Finite State Machine}
+\caption{Flows 2,4,5,6 Finite State Machine}
 \label{tab:F2456sm}
 \end{table*}
 
+\begin{figure*}
 \begin{lstlisting}
 FF.D  = EN*Q2*Q1*Q0
 Q0.D  = EN*/Q0
@@ -87,9 +139,32 @@ AmR.D = EN*Q2*Q1*Q0 + BudRA
 ReL  = /AmL*/GrL
 ReR  = /AmR*/GrR
 \end{lstlisting}
+\caption{Flows 2,4,5,6 code}
+\label{lst:F2456}
+\end{figure*}
 
-\subsection{Flow 3}
-\label{subsec:F3cpc}
+%\subsection{Flow 3}
+%\label{subsec:F3cpc}
+
+\begin{table*}[!Htb]
+\rowcolors{2}{white}{gray!12.5}
+\begin{tabularx}{\linewidth}{ c c c c c c | c c c c c | c X}
+  \multicolumn{6}{c|}{\textbf{Current State}} & \multicolumn{4}{c}{\textbf{Next State}} & & \\
+  Num & EN & Q2 & Q1 & Q0 & FF & Num & Q2.D & Q1.D & Q0.D & FF & COLOUR & COMMENT \\
+  \hline 
+    X &  0 &  X &  X &  X &  0 &   0 &    0 &    0 &    0 &  0 & RED   & IDLE STATE \\
+    0 &  1 &  0 &  0 &  0 &  0 &   1 &    0 &    0 &    1 &  0 & GREEN & \\
+    1 &  1 &  0 &  0 &  1 &  0 &   2 &    0 &    1 &    0 &  0 & GREEN & \\
+    2 &  1 &  0 &  1 &  0 &  0 &   3 &    0 &    1 &    1 &  0 & GREEN & \\
+    3 &  1 &  0 &  1 &  1 &  0 &   4 &    1 &    0 &    0 &  0 & GREEN & \\
+    4 &  1 &  1 &  0 &  0 &  0 &   5 &    1 &    0 &    1 &  0 & GREEN & \\
+    5 &  1 &  1 &  0 &  1 &  0 &   0 &    0 &    0 &    0 &  1 & AMBER  & FLOW FINISHED\\
+  \end{tabularx}
+\caption{Flow 3 Finite State Machine}
+\label{tab:F3sm}
+\end{table*}
+
+\begin{figure*}
 \begin{lstlisting}
 FF.D = EN*Q2*/Q1*Q0
 
@@ -101,3 +176,6 @@ Gr.D = EN*/Q2 + EN*/Q1*/Q0
 Am.D = EN*Q2*/Q1*Q0
 Re   = /Am*/Gr
 \end{lstlisting}
+\caption{Flow 3 Code}
+\label{lst:F3}
+\end{figure*}
