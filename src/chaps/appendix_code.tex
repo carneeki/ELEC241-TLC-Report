@@ -1,0 +1,103 @@
+\newpage
+\section{Appendix A - Chip Programming Code}
+\subsection{Flow 1}
+\label{subsec:F1cpc}
+
+\begin{table*}
+\rowcolors{2}{white}{gray!12.5}
+\begin{tabularx}{\linewidth}{ c c c c c c c c | c c c c c c | c l l}
+  \multicolumn{8}{c|}{\textbf{Current State}} & \multicolumn{6}{c|}{\textbf{Next State}} &     &           & \\
+  Num & EN1 & Q4 & Q3 & Q2 & Q1 & Q0 & S      & Num & D4 & D3 & D2 & D1 & D0             & FF1 & COL   & Comments \\ \hline
+    X &   0 &  X &  X &  X &  X &  X & X      &   0 &  0 &  0 &  0 &  0 &  0             &   0 & RED & Idle \\
+    0 &   1 &  0 &  0 &  0 &  0 &  1 & X      &   1 &  0 &  0 &  0 &  0 &  1             &   0 & GRN & \\
+    1 &   1 &  0 &  0 &  0 &  0 &  1 & X      &   2 &  0 &  0 &  0 &  1 &  0             &   0 & GRN & \\
+    2 &   1 &  0 &  0 &  0 &  1 &  0 & X      &   3 &  0 &  0 &  0 &  1 &  1             &   0 & GRN & \\
+    3 &   1 &  0 &  0 &  0 &  1 &  1 & X      &   4 &  0 &  0 &  1 &  0 &  0             &   0 & GRN & \\
+    4 &   1 &  0 &  0 &  1 &  0 &  0 & X      &   5 &  0 &  0 &  1 &  0 &  1             &   0 & GRN & \\
+    5 &   1 &  0 &  0 &  1 &  0 &  1 & X      &   6 &  0 &  0 &  1 &  1 &  0             &   0 & GRN & \\
+    6 &   1 &  0 &  0 &  1 &  1 &  0 & X      &   7 &  0 &  0 &  1 &  1 &  1             &   0 & GRN & \\
+    7 &   1 &  0 &  0 &  1 &  1 &  1 & X      &   8 &  0 &  1 &  0 &  0 &  0             &   0 & GRN & \\
+    8 &   1 &  0 &  1 &  0 &  0 &  0 & X      &   9 &  0 &  1 &  0 &  0 &  1             &   0 & GRN & \\
+    9 &   1 &  0 &  1 &  0 &  0 &  1 & X      &  10 &  0 &  1 &  0 &  1 &  0             &   0 & GRN & \\
+   10 &   1 &  0 &  1 &  0 &  1 &  0 & X      &  11 &  0 &  1 &  0 &  1 &  1             &   0 & GRN & \\
+   11 &   1 &  0 &  1 &  0 &  1 &  1 & X      &  12 &  0 &  1 &  1 &  0 &  0             &   0 & GRN & \\
+   12 &   1 &  0 &  1 &  1 &  0 &  0 & X      &  13 &  0 &  1 &  1 &  0 &  1             &   0 & GRN & \\
+   13 &   1 &  0 &  1 &  1 &  0 &  1 & X      &  14 &  0 &  1 &  1 &  1 &  0             &   0 & GRN & \\
+   14 &   1 &  0 &  1 &  1 &  1 &  0 & X      &  15 &  0 &  1 &  1 &  1 &  1             &   0 & GRN & \\
+   15 &   1 &  0 &  1 &  1 &  1 &  1 & X      &  16 &  1 &  0 &  0 &  0 &  0             &   0 & GRN & \\
+   16 &   1 &  1 &  0 &  0 &  0 &  0 & X      &  17 &  1 &  0 &  0 &  0 &  1             &   0 & GRN & \\
+   17 &   1 &  1 &  0 &  0 &  0 &  1 & X      &  18 &  1 &  0 &  0 &  1 &  0             &   0 & GRN & \\
+   18 &   1 &  1 &  0 &  0 &  1 &  0 & X      &  19 &  1 &  0 &  0 &  1 &  1             &   0 & GRN & LOOP \\
+   19 &   1 &  1 &  0 &  0 &  1 &  1 & 0      &  19 &  1 &  0 &  0 &  1 &  1             &   0 & GRN & LOOP \\
+   19 &   1 &  1 &  0 &  0 &  1 &  1 & 1      &  19 &  1 &  0 &  0 &  1 &  1             &   1 & GRN & LOOP \\
+   19 &   1 &  1 &  0 &  0 &  1 &  1 & 1      &   0 &  0 &  0 &  0 &  0 &  0             &   0 & AMB & FIN \\
+\end{tabularx}
+\caption{Flow 1 Finite State Machine}
+\label{tab:F1sm}
+\end{table*}
+
+\begin{lstlisting}
+FF.D = EN*Q4*/Q3*/Q2*Q1*Q0*S
+
+Q0.D = EN*/Q4*/Q0 + EN*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Q1.D = EN*/Q4*/Q1*Q0 + EN*/Q4*Q1*/Q0 + EN*/Q3*/Q2*Q1*/Q0 + EN*/Q3*/Q2*/Q1*Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Q2.D = EN*/Q4*Q2*/Q1 + EN*/Q4*Q2*/Q0 + EN*/Q4*/Q2*Q1*Q0
+Q3.D = EN*/Q4*Q3*/Q2 + EN*/Q4*Q3*/Q1 + EN*/Q4*Q3*/Q0 + EN*/Q4*/Q3*Q2*Q1*Q0
+Q4.D = EN*/Q4*Q3*Q2*Q1*Q0 + EN*Q4*/Q3*/Q2*/Q1 + EN*Q4*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+
+Gr = /Am*EN*/Q4 + /Am*EN*/Q3*/Q2*/Q1 + /Am*EN*/Q3*/Q2*Q1*/Q0 + /Am*EN*Q4*/Q3*/Q2*Q1*Q0*/S
+Am = EN*Q4*/Q3*/Q2*Q1*Q0*S
+Re = /Am*/Gr
+\end{lstlisting}
+
+\subsection{Flow 2,4,5,6}
+\label{subsec:F2456cpc}
+
+\begin{table*}
+\rowcolors{2}{white}{gray!12.5}
+\begin{tabularx}{\linewidth}{ c c c c c c | c c c c c | c c X}
+  \multicolumn{6}{c|}{\textbf{Current State}} & \multicolumn{4}{c}{\textbf{Next State}} & & \\
+  Num & EN & Q2 & Q1 & Q0 & FF & Num & Q2.D & Q1.D & Q0.D & FF & COLOUR & COMMENT \\ \hline 
+    X &  0 &  X &  X &  X &  0 &   0 &    0 &    0 &    0 &  0 & RED    & IDLE STATE \\
+    0 &  1 &  0 &  0 &  0 &  0 &   1 &    0 &    0 &    1 &  0 & GREEN  &  \\
+    1 &  1 &  0 &  0 &  1 &  0 &   2 &    0 &    1 &    0 &  0 & GREEN  &  \\
+    2 &  1 &  0 &  1 &  0 &  0 &   3 &    0 &    1 &    1 &  0 & GREEN  &  \\
+    3 &  1 &  0 &  1 &  1 &  0 &   4 &    1 &    0 &    0 &  0 & GREEN  &  \\
+    4 &  1 &  1 &  0 &  0 &  0 &   5 &    1 &    0 &    1 &  0 & GREEN  &  \\
+    5 &  1 &  1 &  0 &  1 &  0 &   6 &    1 &    1 &    0 &  0 & GREEN  &  \\
+    6 &  1 &  1 &  1 &  0 &  0 &   7 &    1 &    1 &    1 &  0 & GREEN  &  \\
+    7 &  1 &  1 &  1 &  1 &  1 &   0 &    0 &    0 &    0 &  1 & AMBER  & FLOW FINISHED \\
+  \end{tabularx}
+\caption{Flow 2 Finite State Machine}
+\label{tab:F2456sm}
+\end{table*}
+
+\begin{lstlisting}
+FF.D  = EN*Q2*Q1*Q0
+Q0.D  = EN*/Q0
+Q1.D  = EN*Q1*/Q0 + EN*/Q1*Q0
+Q2.D  = EN*/Q2*Q1*Q0 + EN*Q2*/Q0 + EN*Q2*/Q1
+
+GrL.D = /Am*EN*/Q0 + /Am*EN*/Q2 + /Am*EN*/Q1 + /Am*BudLG
+GrR.D = /Am*EN*/Q0 + /Am*EN*/Q2 + /Am*EN*/Q1 + /Am*BudRG
+  
+AmL.D = EN*Q2*Q1*Q0 + BudLA
+AmR.D = EN*Q2*Q1*Q0 + BudRA
+ 
+ReL  = /AmL*/GrL
+ReR  = /AmR*/GrR
+\end{lstlisting}
+
+\subsection{Flow 3}
+\label{subsec:F3cpc}
+\begin{lstlisting}
+FF.D = EN*Q2*/Q1*Q0
+
+Q0.D = EN*/Q2*/Q0 + EN*/Q1*/Q0
+Q1.D = EN*/Q1*Q0 + EN*/Q2*Q1*/Q0
+Q2.D = EN*Q2*/Q1 + EN*/Q2*Q1*Q0
+
+Gr.D = EN*/Q2 + EN*/Q1*/Q0
+Am.D = EN*Q2*/Q1*Q0
+Re   = /Am*/Gr
+\end{lstlisting}

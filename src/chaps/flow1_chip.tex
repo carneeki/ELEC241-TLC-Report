@@ -1,0 +1,38 @@
+\section{Flow 1 Chip}
+The flow 1 chip is unique in that it is the only chip (at least partially)
+privy to the movements of the sensors. It is also the only chip with a looping
+state, and it is the longest flow. Thus its implementation is a bit more
+complex. It is a modified MOD 20 counter with a looping state built in. 
+
+\subsection{Inputs}
+\begin{itemize}
+  \item \nS
+  \item \EN{}
+\end{itemize}
+
+\subsection{Outputs}
+\begin{itemize}
+  \item \FF
+  \item \nGr
+  \item \nAm
+  \item \nRed (lights / light \emph{requests})
+  \item \Q{[0\ldots4]} counter variables
+\end{itemize}
+
+Table \ref{tab:F1sm} on page \pageref{tab:F1sm} shows the state machine logic.
+
+From table \ref{tab:F1sm} we were able to derive the equations for all
+outputs using intermediary Karnaugh maps. The equations have been listed in the
+appendix, subsection \ref{subsec:F1cpc} on page \pageref{subsec:F1cpc}.
+
+\textbf{Note:} for reasons that were explained earlier the equations for \nGr,
+\nAm, \nRed(Green, Amber and Red) have no \texttt{.D} attached to them so as to
+immediately forward on these light requests to flows 5 and 6. Also note that all
+green equations in this whole project on every term have a term resembling
+\texttt{/\nAm*\EN*(---)} in them, the \texttt{/\nAm} is required so that these
+counters variables could be reduced by 1 to fit within three bits, this means
+that for a 7 second cycle we only need a mod 8 counter which only requires
+3 bits, but since the control chip takes one cycle to deactivate the \EN for
+that flow, the green would switch back on as it resets to state 0, thus the
+\texttt{/\nAm} input takes care of that single state while it is waiting for
+the controller to switch it off. 

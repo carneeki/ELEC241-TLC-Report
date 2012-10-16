@@ -1,0 +1,23 @@
+\section{Final Notes}
+This design was version 3.2, our initial design failed because we tried to put
+too much onto one chip and the equations became very complex, eventually we
+abandoned this design. Thereafter we started a design 2 which is similar to
+design 3 except the MOD counters for flows 2 - 6 were more complex with more
+states (and four ticking variables) which again led to something too complex,
+we wired this design up and it didn’t count properly, additionally we had not
+put enough thought into how the flows control the traffic lights, leading us to
+a system which simply didn’t work. 
+
+Our final design was version 3, the design which we present as our solution,
+when wired up it worked fine excepting three bugs in the system which were
+resolved in versions 3.1 and 3.2. 
+
+Our final version 3.2 still has room to improve however, the problem is that
+whenever flow 1 goes to 5 or 6 all of the lights go red before flows 5 or 6
+commence. This was indeed highlighted in the original specifications however
+due to time constraints and previous failures we decided to get design 3 working
+perfectly and leave it at this point. 
+
+If we were to redesign the system in order to fix this problem we would have to
+come up with some different light controller logic which would allow for a
+smoother progression between those states. 

@@ -1,0 +1,30 @@
+\section{Flow 2,4,5,6 Chips}
+Flows 2, 4, 5 and 6 are identical (except a slight difference in flow 4), even
+though in the case of flow 2 the complexity of a left and right light is not
+required, nevertheless that doesn't matter in this case as either left or right
+outputs could be used to feed to the lights. 
+
+\subsection{Inputs}
+\begin{itemize}
+  \item \EN
+  \item \texttt{BudLG} (buddy Left Green, means flow 1's requests for green)
+  \item \texttt{BudRG}
+  \item \texttt{BudLA}
+  \item \texttt{BudRA}
+\end{itemize}
+
+\subsection{Outputs}
+\begin{itemize}
+  \item \FF
+  \item \texttt{GrL}
+  \item \texttt{GrR}
+  \item \texttt{AmL}
+  \item \texttt{AmR}
+  \item \texttt{ReL}
+  \item \texttt{ReR}  (all six lights flows 5 \& 6 control)
+  \item \Q{[0\ldots2]} (counter variables)
+\end{itemize}
+
+Flows 2, 5, and 6 are modified MOD 8 counters. Their logic for counter and FSM
+has been listed in appendix subsection \ref{subsec:F2456cpc} on page
+\pageref{subsec:F2456cpc} in table \ref{tab:F2456sm} and code listing.

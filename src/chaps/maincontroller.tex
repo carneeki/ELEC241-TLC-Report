@@ -1,0 +1,53 @@
+\section{Main Controller Design}
+\subsection{Inputs}
+\begin{itemize}
+  \item \FF{1\ldots3}
+  \item \FF{456}
+\end{itemize}
+These inputs notify the Main Controller when a flow is inished. \textbf{Note:}
+\FF{456} is collected as the output of a secondary controller chip (called
+``Minor Controller'') due to a lack of inputs on the Main Controller. \FF{456}
+is defined as
+\begin{align}\FF{456} &= \FF{4} + \FF{5} + \FF{6}\end{align}
+This works because the next flow following flows 4 through 6 will always be flow
+1.
+
+\begin{itemize}
+  \item \AR
+  \item \B
+  \item \CR
+  \item \D
+\end{itemize}
+These inputs are sensor inputs from loop sensors in the road. It is assumed that
+the input has been amplified and buffered\footnote{by someone in ELEC170} to
+present a 5V logic \HIGH when a car is over the sensor.
+\begin{itemize}
+  \item \nReset
+\end{itemize}
+A synchronous reset used to defer back to the default flow upon initialization
+of the system or error.
+\begin{itemize}
+  \item \nS
+\end{itemize}
+A logical \texttt{OR} of sensor inputs \AR, \B, \CR, \D.
+
+\subsection{Outputs}
+\begin{itemize}
+  \item EN{1\ldots 6}
+\end{itemize}
+Enable flows: Thes go \HIGH to switch a flow on.
+
+\begin{itemize}
+  \item \nS
+\end{itemize}
+The sensor \nS was provided to be passed on to flow 1 since flow
+one is the only flow that is in any way privy to the actual movements of the
+sensors. Simply put, as per specifications, flow 1 is to remain in operation
+until any one of the sensors goes \HIGH. This enables it to be the default flow
+which continues to relieve traffic in the most busy direction if no other
+traffic is detected. Thus, the equation for S is quite simple:
+\begin{align}\texttt{S.D = \AR + \B + \CR + \D}\end{align}
+The reason why we have \FF{456} as a single input is simple: we ran out of
+inputs to the Main Controller chip. Luckily, all three of these flows (4, 5 and
+6) lead directly back to flow 1 so we could take this short cut. Following
+sections will show and explain the equations used on the Main Controller chip.

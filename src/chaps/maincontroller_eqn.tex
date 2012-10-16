@@ -1,0 +1,47 @@
+\section{Main Controller Equations}
+According to the specifications provided for dealing with traffic from any
+combination of sources, the controller chip takes the system through a specific
+progression each time a particular sensor combination is input and it is already
+on flow 1, those progressions as part of the specifications will not be listed
+here, however their implementation can be explained in terms of the following
+basic concept:\\
+\\
+\texttt{Information about(Current flow + current high sensors) $\to$ knowledge of next
+flow.} \\
+\\
+Since each circumstance or current state of the system is unique, we can deal
+with them deterministically (ie there is no redundancy, each case is considered
+in the equations exactly once). Following are the equations, please note
+\texttt{X} $\to$ \texttt{Y} means this is the equation term dealing with the
+case of flow \texttt{X} finishing and leading to flow \texttt{Y} If the sensor
+conditions are correct.
+
+Please note, each \ENX formula contains a specific term to ``Maintain'' that
+enable until the flow is complete, in the form \ENX * /\FFX.
+
+The main controller equations have been describe in table \ref{tab:MCeqn} on
+page \pageref{tab:MCeqn}.
+
+
+\begin{table*}
+\rowcolors{2}{gray!12.5}{white}
+\begin{tabularx}{\linewidth}{ r X X X X l}
+\hline
+  Equation         & Maintain                           & 2 $\to$ 1                         & 3 $\to$ 1                        & 4,5,6 $\to$ 1 & Reset \\
+  \texttt{EN1.D =} & \texttt{\EN{1}*/FF1 + }            & \texttt{/{\AR}*/\B*/\CR*\FF{2} +} & \texttt{/\AR*/\B*/\CR*\FF{2} +}  & \FF{456} +    & \nReset \\ \hline
+                   &                                    & 1 $\to$ 2                   & & & \\
+  \texttt{EN2.D =} & \texttt{/\nReset *\EN{2}*/\FF{2}+} & \texttt{/\nReset*\D*\FF{1}} & & & \\ \hline
+                   &                                    & 1 $\to$ 3                       & 2 $\to$ 3                    & & \\
+  \texttt{EN3.D =} & \texttt{/\nReset *\EN{3}*/\FF{3}+} & \texttt{/\nReset*\B*/\D*\FF{1}} & \texttt{/\nReset*B*D*\FF{2}} & & \\ \hline
+                   &                                    & 1 $\to$ 4                                  & 2 $\to$ 4                                 & 3 $\to$ 4                             & \\
+  \texttt{EN4.D =} & \texttt{/\nReset *\EN{4}*/\FF{4}+} & \texttt{/\nReset*\AR*/\B*\CR*/\D*\FF{1}+}  & \texttt{/\nReset*\AR*/\B*\CR*\D*\FF{2}+}  & \texttt{/\nReset*\AR*\B*\CR*\FF{3}}   & \\ \hline
+                   &                                    & 1 $\to$ 5                                  & 2 $\to$ 5                                 & 3 $\to$ 5                             & \\
+  \texttt{EN5.D =} & \texttt{/\nReset *\EN{5}*/\FF{5}+} & \texttt{/\nReset*\AR*/\B*/\CR*/\D*\FF{1}+} & \texttt{/\nReset*\AR*/\B*/\CR*\D*\FF{2}+} & \texttt{/\nReset*\AR*\B*/\CR*\FF{2}+} & \\ \hline
+                   &                                    & 1 $\to$ 6                                  & 2 $\to$ 6                                 & 3 $\to$ 6                             & \\
+  \texttt{EN6.D =} & \texttt{/\nReset *\EN{6}*/\FF{6}+} & \texttt{/\nReset*/\AR*/\B*\CR*/\D*\FF{1}+} & \texttt{/\nReset*/\AR*/\B*\CR*\D*\FF{2}+} & \texttt{/\nReset*/\AR*\B*\CR*\FF{3}+} & \\ \hline
+                   & Logical \texttt{OR} \textbf{ALL} the sensors! & & & & \\
+    \texttt{S.D =} & \texttt{\AR + \B + \CR + \D} & & & & \\ \hline
+\end{tabularx}
+\caption{Main Controller Equations}
+\label{tab:MCeqn}
+\end{table*}

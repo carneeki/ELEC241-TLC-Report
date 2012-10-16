@@ -1,0 +1,20 @@
+\section{Minor Controller}
+As already mentioned in the High Level Design, due to the limited number of
+inputs, we had to implement a very simple minor controller that assists in the
+logic. Because flows 4, 5 and 6 all lead directly back to flow 1, this was
+possible. Our minor controller is as follows:
+\subsection{Inputs}
+\begin{itemize}
+  \item \FF{4}
+  \item \FF{5}
+  \item \FF{6}
+\end{itemize}
+\subsection{Outputs}
+\begin{itemize}
+  \item \texttt{\FF{456} = \FF{4} + \FF{5} + \FF{6}}
+\end{itemize}
+If this were to be implemented in a real world situation, authors would
+recommend replacing the expensive GAL controller with a relatively inexpensive
+3 input NOR gate such as a \texttt{4025} or \texttt{7427} which presently retail
+for approximately \$0.40, compared with \$22.60 (prices for single unit
+quantites as at 21:43, 16 October 2012 from RS Components Australia).
