@@ -27,18 +27,15 @@
 
 
 \begin{figure*}
-\begin{lstlisting}
-EN1.D = 
-\end{lstlisting}
+\lstinputlisting{chip_codes/CONT.eqn}
 \caption{Main Controller code}
 \label{lst:maincontroller}
 \end{figure*}
 
-\subsection{Minor Controller}
+%\subsection{Minor Controller}
+%\label{subsec:minor_controller}
 \begin{figure*}
-\begin{lstlisting}
-FF456 = FF4 + FF5 + FF6
-\end{lstlisting}
+\lstinputlisting{chip_codes/CONT_OR.eqn}
 \caption{Minor Controller code}
 \label{lst:minorcontroller}
 \end{figure*}
@@ -80,23 +77,7 @@ FF456 = FF4 + FF5 + FF6
 \end{table*}
 
 \begin{figure*}
-\begin{lstlisting}
-FF.D = EN*Q4*/Q3*/Q2*Q1*Q0*S
-
-Q0.D = EN*/Q4*/Q0 + EN*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
-Q1.D = EN*/Q4*/Q1*Q0 + EN*/Q4*Q1*/Q0 + EN*/Q3*/Q2*Q1*/Q0
-     + EN*/Q3*/Q2*/Q1*Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
-Q2.D = EN*/Q4*Q2*/Q1 + EN*/Q4*Q2*/Q0 + EN*/Q4*/Q2*Q1*Q0
-Q3.D = EN*/Q4*Q3*/Q2 + EN*/Q4*Q3*/Q1 + EN*/Q4*Q3*/Q0
-     + EN*/Q4*/Q3*Q2*Q1*Q0
-Q4.D = EN*/Q4*Q3*Q2*Q1*Q0 + EN*Q4*/Q3*/Q2*/Q1 + EN*Q4*/Q3*/Q2*/Q0
-     + EN*Q4*/Q3*/Q2*Q1*Q0*/S
-
-Gr = /Am*EN*/Q4 + /Am*EN*/Q3*/Q2*/Q1 + /Am*EN*/Q3*/Q2*Q1*/Q0
-   + /Am*EN*Q4*/Q3*/Q2*Q1*Q0*/S
-Am = EN*Q4*/Q3*/Q2*Q1*Q0*S
-Re = /Am*/Gr
-\end{lstlisting}
+\lstinputlisting{chip_codes/FLOW1.eqn}
 \caption{Flow 1 Code}
 \label{lst:F1}
 \end{figure*}
@@ -124,23 +105,15 @@ Re = /Am*/Gr
 \end{table*}
 
 \begin{figure*}
-\begin{lstlisting}
-FF.D  = EN*Q2*Q1*Q0
-Q0.D  = EN*/Q0
-Q1.D  = EN*Q1*/Q0 + EN*/Q1*Q0
-Q2.D  = EN*/Q2*Q1*Q0 + EN*Q2*/Q0 + EN*Q2*/Q1
+\lstinputlisting{chip_codes/FLOW256.eqn}
+\caption{Flows 2,5,6 code}
+\label{lst:F256}
+\end{figure*}
 
-GrL.D = /Am*EN*/Q0 + /Am*EN*/Q2 + /Am*EN*/Q1 + /Am*BudLG
-GrR.D = /Am*EN*/Q0 + /Am*EN*/Q2 + /Am*EN*/Q1 + /Am*BudRG
-  
-AmL.D = EN*Q2*Q1*Q0 + BudLA
-AmR.D = EN*Q2*Q1*Q0 + BudRA
- 
-ReL  = /AmL*/GrL
-ReR  = /AmR*/GrR
-\end{lstlisting}
-\caption{Flows 2,4,5,6 code}
-\label{lst:F2456}
+\begin{figure*}
+\lstinputlisting{chip_codes/FLOW4.eqn}
+\caption{Flow 4 code}
+\label{lst:F4}
 \end{figure*}
 
 %\subsection{Flow 3}
@@ -165,17 +138,7 @@ ReR  = /AmR*/GrR
 \end{table*}
 
 \begin{figure*}
-\begin{lstlisting}
-FF.D = EN*Q2*/Q1*Q0
-
-Q0.D = EN*/Q2*/Q0 + EN*/Q1*/Q0
-Q1.D = EN*/Q1*Q0 + EN*/Q2*Q1*/Q0
-Q2.D = EN*Q2*/Q1 + EN*/Q2*Q1*Q0
-
-Gr.D = EN*/Q2 + EN*/Q1*/Q0
-Am.D = EN*Q2*/Q1*Q0
-Re   = /Am*/Gr
-\end{lstlisting}
+\lstinputlisting{chip_codes/FLOW3.eqn}
 \caption{Flow 3 Code}
 \label{lst:F3}
 \end{figure*}
