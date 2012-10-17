@@ -1,0 +1,14 @@
+CHIP CONT_OR GAL22V10
+
+;Inputs
+  FF4 = 4
+  FF5 = 5
+  FF6 = 6
+
+;Outputs
+  FF456 = 14
+  
+; Arbitraries
+
+EQUATIONS
+  FF456 = FF4 + FF5 + FF6

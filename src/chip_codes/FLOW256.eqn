@@ -1,0 +1,43 @@
+CHIP FLOW256 GAL22V10
+
+;Inputs
+  EN = 3
+  BudLG = 4
+  BudRG = 5
+  BudLA = 6
+  BudRA = 7
+  
+;Outputs
+  FF = 14
+  GrL = 15
+  GrR = 16
+  AmL = 17
+  AmR = 18
+  ReL = 19
+  ReR = 20
+  
+;Ticking
+  Q0 = 21
+  Q1 = 22
+  Q2 = 23
+
+EQUATIONS
+;Flow finished
+  FF.D = EN*Q2*Q1*Q0
+;Light requests & handling  
+
+  GrL.D = EN*/Q0 + EN*/Q2 + EN*/Q1 + BudLG
+  GrR.D = EN*/Q0 + EN*/Q2 + EN*/Q1 + BudRG
+  
+  AmL.D = EN*Q2*Q1*Q0 + BudLA
+  AmR.D = EN*Q2*Q1*Q0 + BudRA
+  
+  ReL = /AmL*/GrL
+  ReR = /AmR*/GrR
+  
+;Ticking variables
+
+Q0.D = EN*/Q0
+Q1.D = EN*Q1*/Q0 + EN*/Q1*Q0
+Q2.D = EN*/Q2*Q1*Q0 + EN*Q2*/Q0 + EN*Q2*/Q1
+

@@ -1,0 +1,33 @@
+CHIP FLOW1 GAL22V10
+
+;Inputs
+   S = 2
+  EN = 3
+
+;Outputs
+  FF = 14
+  Gr = 15
+  Am = 16
+  Re = 17
+  
+;Ticking
+  Q0 = 18
+  Q1 = 19
+  Q2 = 20
+  Q3 = 21
+  Q4 = 22
+
+EQUATIONS
+;Flow finished
+  FF.D = EN*Q4*/Q3*/Q2*Q1*Q0*S
+;Light requests  
+  Gr = EN*/Q4 + EN*/Q3*/Q2*/Q1 + EN*/Q3*/Q2*Q1*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+  Am = EN*Q4*/Q3*/Q2*Q1*Q0*S
+  Re = /Am*/Gr
+;Ticking variables
+
+  Q0.D = EN*/Q4*/Q0 + EN*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+  Q1.D = EN*/Q4*/Q1*Q0 + EN*/Q4*Q1*/Q0 + EN*/Q3*/Q2*Q1*/Q0 + EN*/Q3*/Q2*/Q1*Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S
+  Q2.D = EN*/Q4*Q2*/Q1 + EN*/Q4*Q2*/Q0 + EN*/Q4*/Q2*Q1*Q0
+  Q3.D = EN*/Q4*Q3*/Q2 + EN*/Q4*Q3*/Q1 + EN*/Q4*Q3*/Q0 + EN*/Q4*/Q3*Q2*Q1*Q0
+  Q4.D = EN*/Q4*Q3*Q2*Q1*Q0 + EN*Q4*/Q3*/Q2*/Q1 + EN*Q4*/Q3*/Q2*/Q0 + EN*Q4*/Q3*/Q2*Q1*Q0*/S

@@ -1,0 +1,32 @@
+CHIP CONT GAL22V10
+
+;Inputs
+  FF1   =  2
+  FF2   =  3
+  FF3   =  4
+  FF456 =  5
+  AR    =  6
+  B     =  7
+  CR    =  8
+  D     =  9
+  Reset = 10
+
+;Outputs
+  EN1 = 22
+  EN2 = 21
+  EN3 = 20
+  EN4 = 19
+  EN5 = 18
+  EN6 = 17
+  S   = 16
+  
+; Arbitraries
+
+EQUATIONS
+  EN1.D = EN1*/FF1 + /AR*/B*/CR*FF2 + /AR*/CR*FF3 + FF456 + Reset
+  EN2.D = /Reset*EN2*/FF2 + /Reset*D*FF1
+  EN3.D = /Reset*EN3*/FF3 + /Reset*B*/D*FF1 + /Reset*B*D*FF2
+  EN4.D = /Reset*EN4*/FF456 + /Reset*AR*/B*CR*/D*FF1 + /Reset*AR*/B*CR*D*FF2 + /Reset*AR*B*CR*FF3
+  EN5.D = /Reset*EN5*/FF456 + /Reset*AR*/B*/CR*/D*FF1 + /Reset*AR*/B*/CR*D*FF2 + /Reset*AR*B*/CR*FF3
+  EN6.D = /Reset*EN6*/FF456 + /Reset*/AR*/B*CR*/D*FF1 + /Reset*/AR*/B*CR*D*FF2 + /Reset*/AR*B*CR*FF3
+  S.D   = AR + B + CR + D

@@ -1,0 +1,32 @@
+CHIP FLOW3 GAL22V10
+
+;Inputs
+  EN = 3
+  
+;Outputs
+  FF = 14
+  Gr = 15
+  Am = 16
+  Re = 17
+
+  
+;Ticking
+  Q0 = 21
+  Q1 = 22
+  Q2 = 23
+
+EQUATIONS
+;Flow finished
+  FF.D = EN*Q2*/Q1*Q0
+;Light requests & handling  
+
+Gr.D = EN*/Q2 + EN*/Q1*/Q0
+Am.D = EN*Q2*/Q1*Q0
+Re = /Am*/Gr
+  
+;Ticking variables
+
+Q0.D = EN*/Q2*/Q0 + EN*/Q1*/Q0
+Q1.D = EN*/Q1*Q0 + EN*/Q2*Q1*/Q0
+Q2.D = EN*Q2*/Q1 + EN*/Q2*Q1*Q0
+
