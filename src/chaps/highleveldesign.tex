@@ -27,7 +27,7 @@ relieved the traffic from that side) it will then raise the \FFX (Flow
 Finished X) to indicate to the main controller that it has completed its cycle,
 at which point the main controller will change that \ENX to \LOW to switch off
 that flow, it then evaluates the sensor inputs and decides which flow to enable
-next, which it will then enable by making that flows Enable line high, and so
+next, which it will then enable by making that flows Enable line \HIGH, and so
 on. This is the basic logic that governs the progression between the flows and
 how it deals with traffic. \textbf{Note:} the \ENX will remain \HIGH during the
 entire duration of the flow. Flow finish goes on for only one clock cycle and
